@@ -7,21 +7,20 @@ $color = '';
 $host = '';
 $msg = '';
 
-
 if (isset($_REQUEST['host']) && !empty($_REQUEST['host'])) {
 
     $host = $_REQUEST['host'];
     $host = preg_replace("(^https?://)", "", $host);
     $host = trim($host, '/');
 
-    $myfile = fopen("file.txt", "w") or die("Unable to open file!");
+    $myfile = fopen($file, "w") or die("Unable to open file!");
     $txt = $host;
     fwrite($myfile, $txt);
     fclose($myfile);
 }
 
-if (filesize('file.txt') > 0) {
-    $domain = file_get_contents("file.txt");
+if (filesize($file) > 0) {
+    $domain = file_get_contents($file);
     if (checkdnsrr($domain, "MX")) {
         $status = "Site Online";
         $color = "green";
@@ -30,9 +29,9 @@ if (filesize('file.txt') > 0) {
         $color = "brown";
     }
 
-    $host = file_get_contents("file.txt");
+    $host = file_get_contents($file);
     if (str_contains($host, 'http') == false) {
-        $host = 'https://' . file_get_contents("file.txt");
+        $host = 'https://' . file_get_contents($file);
     }
     $msg = 'Host monitorado: ';
 }
@@ -66,7 +65,7 @@ if (filesize('file.txt') > 0) {
     <div>
         <div>
             <h3>
-            <?php echo $msg?>
+                <?php echo $msg ?>
                 <a href="<?php echo $host ?>" target="_blank"><?php echo $host ?></a>
             </h3>
         </div>
