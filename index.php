@@ -1,5 +1,4 @@
 <?php
-
 $file = 'file.txt';
 $ip = '';
 $status = '';
@@ -8,11 +7,9 @@ $host = '';
 $msg = '';
 
 if (isset($_REQUEST['host']) && !empty($_REQUEST['host'])) {
-
-    $host = $_REQUEST['host'];
+    $host = strip_tags($_REQUEST['host']);
     $host = preg_replace("(^https?://)", "", $host);
     $host = trim($host, '/');
-
     $myfile = fopen($file, "w") or die("Unable to open file!");
     $txt = $host;
     fwrite($myfile, $txt);
@@ -39,14 +36,12 @@ if (filesize($file) > 0) {
 ?>
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="refresh" content="15">
     <title>Site Status</title>
     <link rel="stylesheet" href="style/stilo.css">
 </head>
-
 <body>
     <div id="i_form">
         <div>
